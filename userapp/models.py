@@ -29,19 +29,21 @@ class bookservice(models.Model):
     submited = models.DateTimeField(auto_now_add=True)
     name = models.TextField()
     phone = models.CharField(max_length=25)
-    servicetype = [
-        ("Diagnostic Test", "Diagnostic Test"),
-        ("Engine Servicing", "Engine Servicing"),
-        ("Tires Replacement", "Tires Replacement"),
-        ("Oil Changing", "Oil Changing"),
-        ("Car Wash", "Car Wash"),
-        ("Battery Check", "Battery Check"),
-        ("Brake Inspection", "Brake Inspection"),
-        ("AC Service", "AC Service"),
-    ]
-    service = models.CharField(max_length=50, choices=servicetype)
+    service = models.CharField(max_length=50)
     date = models.DateField()
     specialrequest = models.TextField()
 
     def __str__(self):
         return self.name
+    
+    
+class Service(models.Model):
+    name = models.CharField(max_length=100)
+    price = models.IntegerField()
+    description = models.TextField()
+    image = models.ImageField(upload_to='services/')  
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.name
+
