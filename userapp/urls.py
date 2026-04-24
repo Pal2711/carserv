@@ -10,8 +10,11 @@ urlpatterns = [
     path('testimonial/',views.testimonial,name="testimonial"),
     path('contact/',views.contact,name="contact"),
     path('login/',views.login,name="login"),
-     path("logout/", views.userlogout, name="logout"),
+    path("logout/", views.userlogout, name="logout"),
     path('signup/',views.signup,name="signup"),
-
+    path('error/',views.error,name="error"), 
+    path('booking/<int:id>/', views.booking, name="booking"),
+    path('success/', views.success, name="success"),
+    path('services/', views.service_list, name="services"),
 
 ]
