@@ -1,0 +1,66 @@
+{% extends 'base.html' %}
+{% block title %}Booking{% endblock %}
+{% block body %}
+
+<div style="max-width:1300px; margin:60px auto; background:#fff; border-radius:15px; box-shadow:0 8px 25px rgba(0,0,0,0.1); overflow:hidden; display:flex; flex-wrap:wrap;">
+
+    <!-- LEFT SIDE (IMAGE) -->
+    <div style="flex:1; min-width:300px;">
+        <img src="{{ service.image.url }}" 
+             style="width:100%; height:100%; object-fit:cover;">
+    </div>
+
+    <!-- RIGHT SIDE (FORM) -->
+    <div style="flex:1; min-width:300px; padding:30px;">
+
+        <h2 style="text-align:center; color:#1e293b; margin-bottom:20px;">
+            Book Service
+        </h2>
+
+        <!-- SERVICE DETAILS -->
+        <h3 style="text-align:center; font-weight:600;">
+            {{ service.name }}
+        </h3>
+
+        <p style="text-align:center; color:#2563eb; font-size:22px; font-weight:bold;">
+            ₹{{ service.price }}
+        </p>
+
+        <p style="text-align:center; color:#64748b; font-size:14px; margin-bottom:20px;">
+            {{ service.description }}
+        </p>
+
+        <hr style="margin-bottom:20px;">
+
+        <!-- FORM -->
+        <form method="POST">
+            {% csrf_token %}
+
+            <input type="text" name="name" placeholder="Enter Your Name"
+                style="width:100%; padding:12px; margin-bottom:15px; border-radius:8px; border:1px solid #ccc;"
+                required>
+
+            <input type="email" name="email" placeholder="Enter Your Email"
+                style="width:100%; padding:12px; margin-bottom:20px; border-radius:8px; border:1px solid #ccc;"
+                required>
+
+            <button type="submit"
+                style="width:100%; padding:12px; background:#2563eb; border:none; color:white; font-weight:bold; border-radius:8px; transition:0.3s;"
+                onmouseover="this.style.background='#1d4ed8'"
+                onmouseout="this.style.background='#2563eb'">
+                Confirm Booking
+            </button>
+
+        </form>
+
+        <!-- BACK BUTTON -->
+        <a href="{% url 'services' %}" 
+           style="display:block; text-align:center; margin-top:15px; color:#2563eb; text-decoration:none;">
+            ← Back to Services
+        </a>
+
+    </div>
+
+</div>
+
+{% endblock %}  
