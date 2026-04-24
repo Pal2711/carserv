@@ -1,4 +1,4 @@
-from django.shortcuts import render,redirect
+from django.shortcuts import render,redirect,get_object_or_404
 from .models import *
 from .forms import * 
 from django.contrib.auth import logout
@@ -19,25 +19,32 @@ def index(request):
         form = bookserviceform()
     return render(request, "index.html",{'form': form})
 
-
 def about(request):
     return render(request, "about.html")
 
 def service(request):
-    # for the book servis
     msg = ""
+
+    # fetch services
+    services = Service.objects.all()
+
     if request.method == "POST":
         form = bookserviceform(request.POST)
         if form.is_valid():
             form.save()
-            print("Your service is book")
+            msg = "Your Service is booked ✅"
             return redirect("service")
         else:
             print(form.errors)
-            msg = "Your Service is booked"
+            msg = "Error in booking ❌"
     else:
         form = bookserviceform()
-    return render(request, "service.html",{"form" : form ,'msg':msg })
+
+    return render(request, "service.html", {
+        "form": form,
+        "msg": msg,
+        "services": services
+    })
 
 def team(request):
     return render(request, "team.html")
@@ -92,3 +99,32 @@ def signup(request):
         form = usersignupform()  
 
     return render(request, "signup.html", {'form': form}) 
+
+def error(request):
+    return render(request, "404.html")
+
+def booking(request, id):
+    service = get_object_or_404(Service, id=id)
+
+    if request.method == "POST":
+        name = request.POST.get("name")
+        email = request.POST.get("email")
+
+        Booking.objects.create(
+            service=service,
+            name=name,
+            email=email
+        )
+
+        return redirect("success")
+
+    return render(request, "booking.html", {"service": service})
+
+
+# Success page
+def success(request):
+    return render(request, "success.html")
+
+def service_list(request):
+    services = Service.objects.all()
+    return render(request, "services.html", {"services": services})
